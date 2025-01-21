@@ -19,12 +19,12 @@ curl http://localhost:8080/wealth
         "totalPerformance": 0.123,
         "totalReturn": 123
     },
-    "up_to_date": true,
+    "upToDate": true,
     "error": ""
 }
 ```
 
 > [!WARNING]  
-> If `up_to_date` is `false`, then a **cached** entry will be shown.  
+> If `upToDate` is `false`, then a **cached** entry will be shown.  
 > In such case, the field `error` will be populated and `timestamp` will be the time of the last successful update.  
 > Additionally, only `.wealth.totalValue` will be populated.
