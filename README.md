@@ -1,5 +1,5 @@
 # VIAC 3a Wealth Getter API
-API to get the wealth of a VIAC 3a account.  
+API to get the wealth of a VIAC 3a account (based on [this](https://github.com/ThisIsntTheWay/viac-wealth-getter)).  
 I use this in tandem with a Google sheet.
 
 ## Usage
