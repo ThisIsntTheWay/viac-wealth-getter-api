@@ -19,7 +19,7 @@ var dbFilePath string = "./db/wealth.db"
 type WealthResponse struct {
 	Timestamp time.Time     `json:"timestamp"` // Timestamp of last succesfully retrieved wealth
 	Wealth    wealth.Wealth `json:"wealth"`
-	UpToDate  bool          `json:"up_to_date"` // False = GetWealth() failed
+	UpToDate  bool          `json:"upToDate"` // False = GetWealth() failed
 	Error     string        `json:"error"`      // Empty if UpToDate == true
 }
 
