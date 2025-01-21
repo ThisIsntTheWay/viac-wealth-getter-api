@@ -6,12 +6,15 @@ import (
 	"fmt"
 	"log/slog"
 	"net/http"
+	"os"
 	"strings"
 	"time"
 
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/thisisnttheway/viac-wealth-getter/wealth"
 )
+
+var dbFilePath string = "./db/wealth.db"
 
 type WealthResponse struct {
 	Timestamp time.Time     `json:"timestamp"` // Timestamp of last succesfully retrieved wealth
@@ -28,7 +31,7 @@ type WealthEntry struct {
 
 // Cache wealth response from viac-wealth-getter
 func cacheWealth(w wealth.Wealth) error {
-	db, err := sql.Open("sqlite3", "./wealth.db")
+	db, err := sql.Open("sqlite3", dbFilePath)
 	if err != nil {
 		return fmt.Errorf("failed to open DB: %v", err)
 	}
@@ -59,7 +62,7 @@ func cacheWealth(w wealth.Wealth) error {
 
 // Gets most recent cached wealth entry
 func getMostRecentCachedWealth() (*WealthEntry, error) {
-	db, err := sql.Open("sqlite3", "./wealth.db")
+	db, err := sql.Open("sqlite3", dbFilePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open DB: %v", err)
 	}
@@ -134,11 +137,17 @@ func getWealth(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	dir := "./db"
+	_, err := os.Stat(dir)
+	if os.IsNotExist(err) {
+		os.Mkdir(dir, 0755)
+	}
+
 	port := "8080"
 	slog.Info("MAIN", "action", "serve", "port", port)
 
 	http.HandleFunc("/wealth", getWealth)
-	err := http.ListenAndServe(":"+port, nil)
+	err = http.ListenAndServe(":"+port, nil)
 	if err != nil {
 		panic(err)
 	}
